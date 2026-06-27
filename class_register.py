@@ -33,13 +33,17 @@ class ClassRegister:
 
      def compute_subjectscores(self):
           '''Computes and stores subject scores for each student in a dictionary'''
-          self.num_of_subjects= int(input('How many subjects do your students offer? '))
-          for i in range(self.num_of_subjects):
-               subject= input(f'Enter subject {i+1}: ')
-               for student in self.students:
-                    print(f'Entering results for {student.student_name}')
-                    score= float(input('Enter score: '))
-                    student.add_result(subject, score)
+          while True:
+               self.num_of_subjects= int(input('How many subjects do your students offer? '))
+               if isinstance(self.num_of_subjects, int) == False:
+                    print('Enter number of subjects!')
+               else:
+                    for i in range(self.num_of_subjects):
+                         subject= input(f'Enter subject {i+1}: ')
+                         for student in self.students:
+                              print(f'Entering results for {student.student_name}')
+                              score= float(input('Enter score: '))
+                              student.add_result(subject, score)
                
      def count_absences(self, student: Student):
           '''Returns count of student absences provided from the class attendance'''
@@ -51,23 +55,29 @@ class ClassRegister:
 
      def mark_attendance(self):
           '''Takes class attendance and stores in a dictionary'''
-          week_day= input('Enter day of the week(e.g Monday, Tuesday....) ')
+          
           daily_record= {}
           students= sorted(self.students, key=lambda student:student.student_name.lower())
-          for student in students:
-               map_attendance= {
-                    'P':'Present',
-                    'A':'Absent'
-               }
-               while True:
-                    mark= input(f'{student.student_name} Present/Absent? Enter P/A: ').upper().strip()
-                    if mark not in ['P','A']:
-                         print('Invalid input! Enter P/A')
-                    else:
-                         daily_record[student.student_name]= map_attendance[mark]
-                         break
-          self.attendance[week_day]= daily_record
-          return self.attendance
+          while True:
+               week_day= input('Enter day of the week(e.g Monday, Tuesday....) ')
+               if week_day not in ('Monday','Tuesday','Wednesday','Thursday','Friday'):
+                    print('Invalid Input! Enter day of the week')
+               else:
+                    for student in students:
+                         map_attendance= {
+                              'P':'Present',
+                              'A':'Absent'
+                         }
+                         while True:
+                              mark= input(f'{student.student_name} Present/Absent? Enter P/A: ').upper().strip()
+                              if mark not in ['P','A']:
+                                   print('Invalid input! Enter P/A')
+                              else:
+                                   daily_record[student.student_name]= map_attendance[mark]
+                                   break
+                    self.attendance[week_day]= daily_record
+                    return self.attendance
+                    
 
 
 
