@@ -1,58 +1,84 @@
-"""A classroom manager software program that handles basic classroom functions 
-such as attendance taking, subject score computing, quick student grading,
-classroom prefect shuffling and allocation.
-This program is built specially in dedication to my dear Mother, A great teacher.
-"""
+from fastapi import FastAPI
 from class_register import ClassRegister
+from pydantic import BaseModel
 from student import Student
 
-js1= ClassRegister('js1')
 
-#=====================================================================================#
-'''STUDENT AND CLASS REGISTER INSTANTIATION'''
+app= FastAPI()
 
-George= Student('George Obi', '001')
-Rose= Student('Rose Ocha', '002')
-Damian= Student('Damian Okon', '003')
+register= ClassRegister('js1','Mrs Juliana',2)
 
-Abby= Student('Abigail Vincent', '004')
-Miami= Student('Olga Obi', '005')
-Ruth= Student('Ruth Obi','006')
+@app.get("/")
+def home():
+    return {"message":"My Classroom API"}
 
-Steve= Student('Steve Nwankwo','007')
-Habib= Student('Habib Abdul','008')
-Ella= Student('Ella Bankole','009')
+@app.get("/students")
+def get_students():
+    return {'students':[{'Name':student.student_name,'ID':student.student_id}for student in register.students]}
 
-js1.add_student(Abby)
-js1.add_student(Ella)
-js1.add_student(Damian)
+class StudentInput(BaseModel):
+    name: str
+    student_id: str
 
+class AttendanceInput(BaseModel):
+    student_id: str
+    day: str
+    status: str
 
-#======================================================================================#
-'''STUDENT AND CLASS REGISTER FUNCTIONS TEST '''
+class ResultInput(BaseModel):
+    student_id: str
+    subject: str
+    score: float
 
-print(f'{Miami.student_name} {Miami.student_id}') #  Outputs Olga Obi 005
-print(js1.class_teacher) #  Outputs Mrs Juliana Obi-Njoku
+@app.post("/students")
+def add_student(student_input: StudentInput):
+    student= Student(student_input.name, student_input.student_id)
+    register.add_student(student)
+    return {'Message':f'{student_input.name} added successfully!'}
 
-'''Several classroom function tests'''
-js1.class_info()
-js1.sort_by_name()
-js1.mark_attendance()
-print(js1.count_absences(Abby))
-js1.select_prefect()
+@app.post("/attendance")
+def mark_attendance(data: AttendanceInput):
+    student= next((s for s in register.students if s.student_id == data.student_id), None)
+    if not student:
+        return {'Error':'Student not found!'}
+    if data.day not in ['Monday','Tuesday','Wednesday','Thursday','Friday']:
+        return {'Error':'Invalid day!'}
+    if data.status.upper() not in ['P','A']:
+        return {'Error':'Invalid input! Enter P or A'}
+    if data.day not in register.attendance:
+        register.attendance[data.day]= {}
+    register.attendance[data.day][student.student_name] = 'Present' if data.status == 'P' else 'Absent'
+    return {'Message':f'{student.student_name} has been marked {register.attendance[data.day][student.student_name]} for {data.day}'}
 
-#  Store student results and rank the students based on their average
-js1.compute_subjectscores() 
-js1.rank_students()
+@app.get("/students/{student_id}/absences")
+def get_absences(student_id: str):
+    student= next((s for s in register.students if student_id == s.student_id), None)
+    if not student:
+        return {'Error': 'Student not found!'}
+    count= 0
+    for day in register.attendance:
+        if register.attendance[day].get(student.student_name) == 'Absent':
+            count += 1
+    return {'Student': student.student_name, 'Absences': count}
 
-#  Some Student object methods and attributes
-Ruth.add_result('Electronics',95)
-Ruth.add_result('Technical drawing',88)
-Ruth.add_result('Further Mathematics', 90)
-print(Ruth.is_passing())
-print(Ruth.get_average())
-print(Ruth.get_grade())
+@app.post("/results")
+def add_result(data: ResultInput):
+    student= next((s for s in register.students if s.student_id == data.student_id), None)
+    if not student:
+        return {'Error':'Student not found'}
+    student.add_result(data.subject, data.score)
+    return {'message':f'Result for {student.student_name} added', 'subject': data.subject}
 
-print(Miami)
-print(George)
-#=======================================================================================#
+@app.get("/results/ranked")
+def rank_students():
+    if not register.students:
+        return {'Error':'No student in register'}
+    ranked= sorted(register.students, key=lambda s: sum(s.result.values()) if s.result else 0, reverse= True)
+    return {'ranked students': [{'rank': i+1, 'name': s.student_name, 'total': sum(s.result.values())} for i, s in enumerate(ranked)]}
+
+@app.get("/prefect")
+def get_prefect():
+    if not register.students:
+        return {'Error':'No student exist'}
+    prefect= register.select_prefect()
+    return {'Prefect': prefect.student_name, 'id': prefect.student_id}

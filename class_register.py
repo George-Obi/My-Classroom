@@ -4,13 +4,14 @@ class ClassRegister:
 
      num_of_students= 0
 
-     def __init__(self, class_grade):
+     def __init__(self, class_grade,class_teacher,num_of_subjects):
           '''Initializes a new instance of ClassRegister'''
-          self.class_teacher= input('Enter name of form teacher in full: ')
+          self.class_teacher= class_teacher
           self.students= []
           self.grade= class_grade
           self.attendance= {}
           self.class_prefect= None
+          self.num_of_subjects= num_of_subjects
 
      def add_student(self,student):
           '''Adds a new student to an existing grade(class)'''
@@ -31,12 +32,12 @@ class ClassRegister:
           return class_list
      
 
-     def compute_subjectscores(self):
+     def compute_subjectscores(self): # <-- BUG FIX 
           '''Computes and stores subject scores for each student in a dictionary'''
           while True:
-               self.num_of_subjects= int(input('How many subjects do your students offer? '))
+               print('Enter number of subjects!')
                if isinstance(self.num_of_subjects, int) == False:
-                    print('Enter number of subjects!')
+                    print('Invalid input! Enter number of subjects')
                else:
                     for i in range(self.num_of_subjects):
                          subject= input(f'Enter subject {i+1}: ')
