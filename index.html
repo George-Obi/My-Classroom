@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>My Classroom</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: #F8F5F0;
+      color: #1a1a1a;
+    }
+
+    header {
+      background: #1B4332;
+      color: white;
+      padding: 20px 32px;
+    }
+
+    header h1 { font-size: 1.6rem; font-weight: 600; }
+    header p { font-size: 0.9rem; opacity: 0.75; margin-top: 4px; }
+
+    .tabs {
+      display: flex;
+      background: #163828;
+      padding: 0 32px;
+    }
+
+    .tab {
+      padding: 14px 20px;
+      color: rgba(255,255,255,0.6);
+      cursor: pointer;
+      font-size: 0.9rem;
+      border-bottom: 3px solid transparent;
+    }
+
+    .tab.active {
+      color: #D4A853;
+      border-bottom: 3px solid #D4A853;
+    }
+
+    .content {
+      padding: 32px;
+      max-width: 800px;
+    }
+
+    .panel { display: none; }
+    .panel.active { display: block; }
+
+    h2 { font-size: 1.1rem; margin-bottom: 16px; color: #1B4332; }
+
+    input, select {
+      width: 100%;
+      padding: 10px 14px;
+      margin-bottom: 12px;
+      border: 1px solid #ddd;
+      border-radius: 6px;
+      font-size: 0.95rem;
+      background: white;
+    }
+
+    button {
+      background: #1B4332;
+      color: white;
+      padding: 10px 24px;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 0.95rem;
+    }
+
+    button:hover { background: #163828; }
+
+    .result-box {
+      margin-top: 16px;
+      background: white;
+      border: 1px solid #eee;
+      border-radius: 8px;
+      padding: 16px;
+      font-size: 0.9rem;
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <h1>My Classroom</h1>
+  <p>JS1 — Mrs Juliana Obi-Njoku</p>
+</header>
+
+<div class="tabs">
+  <div class="tab active" onclick="showTab('students')">Students</div>
+  <div class="tab" onclick="showTab('attendance')">Attendance</div>
+  <div class="tab" onclick="showTab('results')">Results</div>
+  <div class="tab" onclick="showTab('prefect')">Prefect</div>
+</div>
+
+<div class="content">
+
+  <div class="panel active" id="students">
+    <h2>Add a Student</h2>
+    <input type="text" id="studentName" placeholder="Full name">
+    <input type="text" id="studentId" placeholder="Student ID (e.g. 001)">
+    <button onclick="addStudent()">Add Student</button>
+    <div class="result-box" id="studentResult">Students will appear here.</div>
+  </div>
+
+  <div class="panel" id="attendance">
+    <h2>Mark Attendance</h2>
+    <input type="text" id="attId" placeholder="Student ID">
+    <select id="attDay">
+      <option value="">Select day</option>
+      <option>Monday</option>
+      <option>Tuesday</option>
+      <option>Wednesday</option>
+      <option>Thursday</option>
+      <option>Friday</option>
+    </select>
+    <select id="attStatus">
+      <option value="">Present or Absent?</option>
+      <option value="P">Present</option>
+      <option value="A">Absent</option>
+    </select>
+    <button onclick="markAttendance()">Mark</button>
+    <div class="result-box" id="attResult">Response will appear here.</div>
+  </div>
+
+  <div class="panel" id="results">
+    <h2>Record Result</h2>
+    <input type="text" id="resId" placeholder="Student ID">
+    <input type="text" id="resSubject" placeholder="Subject">
+    <input type="number" id="resScore" placeholder="Score">
+    <button onclick="addResult()">Save Result</button>
+    <button onclick="getRanked()" style="background:#D4A853; color:#1a1a1a; margin-left:8px;">View Rankings</button>
+    <div class="result-box" id="resResult">Response will appear here.</div>
+  </div>
+
+  <div class="panel" id="prefect">
+    <h2>Select Class Prefect</h2>
+    <button onclick="getPrefect()">Select Prefect</button>
+    <div class="result-box" id="prefectResult">Prefect will appear here.</div>
+  </div>
+
+</div>
+
+<script>
+  const BASE = 'http://127.0.0.1:8000';
+
+  function showTab(name) {
+    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+    document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+    document.getElementById(name).classList.add('active');
+    event.target.classList.add('active');
+  }
+
+  async function addStudent() {
+    const name = document.getElementById('studentName').value;
+    const id = document.getElementById('studentId').value;
+    const res = await fetch(`${BASE}/students`, {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({name, student_id: id})
+    });
+    const data = await res.json();
+    document.getElementById('studentResult').innerText = JSON.stringify(data, null, 2);
+  }
+
+  async function markAttendance() {
+    const student_id = document.getElementById('attId').value;
+    const day = document.getElementById('attDay').value;
+    const status = document.getElementById('attStatus').value;
+    const res = await fetch(`${BASE}/attendance`, {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({student_id, day, status})
+    });
+    const data = await res.json();
+    document.getElementById('attResult').innerText = JSON.stringify(data, null, 2);
+  }
+
+  async function addResult() {
+    const student_id = document.getElementById('resId').value;
+    const subject = document.getElementById('resSubject').value;
+    const score = parseFloat(document.getElementById('resScore').value);
+    const res = await fetch(`${BASE}/results`, {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({student_id, subject, score})
+    });
+    const data = await res.json();
+    document.getElementById('resResult').innerText = JSON.stringify(data, null, 2);
+  }
+
+  async function getRanked() {
+    const res = await fetch(`${BASE}/results/ranked`);
+    const data = await res.json();
+    document.getElementById('resResult').innerText = JSON.stringify(data, null, 2);
+  }
+
+  async function getPrefect() {
+    const res = await fetch(`${BASE}/prefect`);
+    const data = await res.json();
+    document.getElementById('prefectResult').innerText = JSON.stringify(data, null, 2);
+  }
+</script>
+
+</body>
+</html>
