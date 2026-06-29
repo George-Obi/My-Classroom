@@ -196,7 +196,7 @@
   async function getRanked() {
     const res = await fetch(`${BASE}/results/ranked`);
     const data = await res.json();
-    document.getElementById('resResult').innerText = JSON.stringify(data, null, 2);
+    document.getElementById('resResult').innerText = data.Message || data.error || 'Done.';
   }
 
   async function getPrefect() {
