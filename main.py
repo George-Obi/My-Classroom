@@ -2,11 +2,16 @@ from fastapi import FastAPI
 from class_register import ClassRegister
 from pydantic import BaseModel
 from student import Student
-
+from fastapi.staticfiles import StaticFiles
+from fastapi.responses import FileResponse
 
 app= FastAPI()
 
 register= ClassRegister('js1','Mrs Juliana',2)
+
+@app.get("/app")
+def serve_frontend():
+    return FileResponse('index.html')
 
 @app.get("/")
 def home():
