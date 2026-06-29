@@ -164,7 +164,7 @@
       body: JSON.stringify({name, student_id: id})
     });
     const data = await res.json();
-    document.getElementById('studentResult').innerText = JSON.stringify(data, null, 2);
+    document.getElementById('studentResult').innerText = data.Message || data.error || 'Done.';
   }
 
   async function markAttendance() {
@@ -177,7 +177,7 @@
       body: JSON.stringify({student_id, day, status})
     });
     const data = await res.json();
-    document.getElementById('attResult').innerText = JSON.stringify(data, null, 2);
+    document.getElementById('attResult').innerText = data.Message || data.error || 'Done.';
   }
 
   async function addResult() {
@@ -190,7 +190,7 @@
       body: JSON.stringify({student_id, subject, score})
     });
     const data = await res.json();
-    document.getElementById('resResult').innerText = JSON.stringify(data, null, 2);
+    document.getElementById('resResult').innerText = data.Message || data.error || 'Done.';
   }
 
   async function getRanked() {
@@ -202,7 +202,7 @@
   async function getPrefect() {
     const res = await fetch(`${BASE}/prefect`);
     const data = await res.json();
-    document.getElementById('prefectResult').innerText = JSON.stringify(data, null, 2);
+    document.getElementById('prefectResult').innerText = data.Message || data.error || 'Done.';
   }
 </script>
 
