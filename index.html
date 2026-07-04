@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-
 <html lang="en">
 <head>
 <meta charset="UTF-8">
@@ -15,8 +14,8 @@ body {
   letter-spacing: -0.01em;
 }
 
+/* NAV */
 .nav-wrap { padding: 20px 20px 0 20px; }
-
 .nav-pill {
   background: #F1F1F3;
   border-radius: 999px;
@@ -27,7 +26,6 @@ body {
   flex-wrap: wrap;
   gap: 10px;
 }
-
 .nav-pill .brand {
   display: flex;
   align-items: center;
@@ -35,16 +33,13 @@ body {
   font-weight: 800;
   font-size: 1.05rem;
 }
-
 .brand-mark {
   width: 28px;
   height: 28px;
   border-radius: 50%;
   background: linear-gradient(135deg, #2151F5 0%, #D6249F 100%);
 }
-
 .tabs { display: flex; gap: 4px; flex-wrap: wrap; }
-
 .tab {
   padding: 8px 16px;
   border-radius: 999px;
@@ -52,17 +47,20 @@ body {
   font-weight: 600;
   color: #444;
   cursor: pointer;
+  border: none;
+  background: transparent;
   transition: background 0.15s ease, color 0.15s ease;
 }
-.tab:hover { background: rgba(0,0,0,0.06); }
+.tab:hover { background: rgba(214,36,159,0.1); color: #D6249F; }
 .tab.active { background: #0A0A0A; color: #FFFFFF; }
 
+/* HERO */
 .hero { padding: 56px 24px 32px 24px; max-width: 640px; }
 .hero h1 { font-size: 2.1rem; font-weight: 800; line-height: 1.15; letter-spacing: -0.03em; }
 .hero p { color: #6B6B6B; font-size: 1rem; margin-top: 14px; line-height: 1.5; }
 
+/* FORMS */
 .form-area { padding: 0 24px 40px 24px; max-width: 480px; }
-
 input, select {
   width: 100%;
   padding: 14px 16px;
@@ -75,8 +73,8 @@ input, select {
 }
 input:focus, select:focus { outline: none; border-color: #2151F5; background: #FFFFFF; }
 
+/* BUTTONS */
 .btn-row { display: flex; gap: 10px; margin-top: 4px; flex-wrap: wrap; }
-
 .btn-primary {
   background: #0A0A0A;
   color: #FFFFFF;
@@ -86,9 +84,9 @@ input:focus, select:focus { outline: none; border-color: #2151F5; background: #F
   font-weight: 700;
   font-size: 0.95rem;
   cursor: pointer;
-  transition: opacity 0.15s ease, transform 0.1s ease;
+  transition: background 0.15s ease, transform 0.1s ease;
 }
-.btn-primary:hover { opacity: 0.85; }
+.btn-primary:hover { background: #D6249F; transform: scale(1.02); }
 .btn-primary:active { transform: scale(0.97); }
 
 .btn-secondary {
@@ -100,10 +98,92 @@ input:focus, select:focus { outline: none; border-color: #2151F5; background: #F
   font-weight: 700;
   font-size: 0.95rem;
   cursor: pointer;
-  transition: background 0.15s ease;
+  transition: background 0.15s ease, border-color 0.15s ease, color 0.15s ease;
 }
-.btn-secondary:hover { background: rgba(0,0,0,0.05); }
+.btn-secondary:hover { background: rgba(214,36,159,0.08); border-color: #D6249F; color: #D6249F; }
 
+.btn-danger {
+  background: transparent;
+  color: #cc0000;
+  padding: 6px 14px;
+  border-radius: 999px;
+  border: 1.5px solid #cc0000;
+  font-weight: 600;
+  font-size: 0.8rem;
+  cursor: pointer;
+  transition: background 0.15s ease, color 0.15s ease;
+}
+.btn-danger:hover { background: #D6249F; border-color: #D6249F; color: #fff; }
+
+/* RESULT BOX */
+.result-box {
+  margin-top: 18px;
+  background: #FAFAFA;
+  border: 1.5px solid #E5E5E5;
+  border-radius: 14px;
+  padding: 16px 18px;
+  font-size: 0.9rem;
+  color: #333;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+/* SEARCH BAR */
+.search-wrap { padding: 0 24px; max-width: 480px; margin-bottom: 8px; }
+.search-input {
+  width: 100%;
+  padding: 12px 16px;
+  border: 1.5px solid #E5E5E5;
+  border-radius: 12px;
+  font-size: 0.95rem;
+  background: #FAFAFA;
+  transition: border-color 0.15s ease;
+  margin-bottom: 0;
+}
+.search-input:focus { outline: none; border-color: #2151F5; background: #fff; }
+
+/* ROSTER */
+.roster-wrap { padding: 0 24px 40px 24px; max-width: 600px; }
+.roster-empty { color: #9A9A9A; font-size: 0.9rem; padding: 16px 0; }
+
+.student-card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 18px;
+  border: 1.5px solid #E5E5E5;
+  border-radius: 14px;
+  margin-bottom: 10px;
+  cursor: pointer;
+  transition: border-color 0.15s ease, background 0.15s ease;
+  gap: 12px;
+}
+.student-card:hover { border-color: #D6249F; background: rgba(214,36,159,0.03); }
+.student-card.selected { border-color: #2151F5; background: rgba(33,81,245,0.04); }
+
+.student-card-info { flex: 1; min-width: 0; }
+.student-card-name { font-weight: 700; font-size: 0.95rem; }
+.student-card-id { font-size: 0.8rem; color: #9A9A9A; margin-top: 2px; }
+
+.student-detail {
+  margin-top: 12px;
+  background: #0A0A0A;
+  border-radius: 14px;
+  padding: 18px 20px;
+  color: #EAEAEA;
+  font-size: 0.88rem;
+  display: none;
+  margin-bottom: 10px;
+}
+.student-detail.open { display: block; }
+.student-detail h4 { color: #F472C4; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 10px; }
+.subject-row { display: flex; justify-content: space-between; padding: 6px 0; border-bottom: 1px solid #1E1E1E; }
+.subject-row:last-child { border-bottom: none; }
+.subject-name { color: #9A9A9A; }
+.subject-score { font-weight: 700; color: #6FA0FF; }
+.no-results-msg { color: #6B6B6B; font-size: 0.88rem; }
+
+/* TERMINAL CARD */
 .terminal-card { background: #0A0A0A; border-radius: 16px; padding: 6px; margin-top: 24px; }
 .terminal-line {
   padding: 16px 18px;
@@ -113,30 +193,14 @@ input:focus, select:focus { outline: none; border-color: #2151F5; background: #F
   font-size: 0.9rem;
   margin-bottom: 4px;
 }
-.terminal-line.highlight {
-  border: 1.5px solid #2151F5;
-  color: #6FA0FF;
-  background: rgba(33,81,245,0.08);
-}
-.terminal-line.magenta-highlight {
-  border: 1.5px solid #D6249F;
-  color: #F472C4;
-  background: rgba(214,36,159,0.08);
-}
+.terminal-line.highlight { border: 1.5px solid #2151F5; color: #6FA0FF; background: rgba(33,81,245,0.08); }
+.terminal-line.magenta-highlight { border: 1.5px solid #D6249F; color: #F472C4; background: rgba(214,36,159,0.08); }
 
-.result-box {
-  margin-top: 18px;
-  background: #FAFAFA;
-  border: 1.5px solid #E5E5E5;
-  border-radius: 14px;
-  padding: 16px 18px;
-  font-size: 0.9rem;
-  color: #333;
-}
-
+/* PANELS */
 .panel { display: none; }
 .panel.active { display: block; }
 
+/* FOOTER */
 footer { background: #0A0A0A; color: #FFFFFF; margin-top: 40px; padding: 40px 24px 24px 24px; }
 footer .footer-title { font-weight: 800; font-size: 1.1rem; margin-bottom: 6px; }
 footer .footer-tag { color: #9A9A9A; font-size: 0.85rem; margin-bottom: 24px; }
@@ -162,29 +226,41 @@ footer .footer-bottom span.author { color: #F472C4; font-weight: 600; }
       My Classroom
     </div>
     <div class="tabs">
-      <div class="tab active" onclick="showTab('students', this)">Students</div>
-      <div class="tab" onclick="showTab('attendance', this)">Attendance</div>
-      <div class="tab" onclick="showTab('results', this)">Results</div>
-      <div class="tab" onclick="showTab('prefect', this)">Prefect</div>
+      <button class="tab active" onclick="showTab('students', this)">Students</button>
+      <button class="tab" onclick="showTab('attendance', this)">Attendance</button>
+      <button class="tab" onclick="showTab('results', this)">Results</button>
+      <button class="tab" onclick="showTab('prefect', this)">Prefect</button>
     </div>
   </div>
 </div>
 
+<!-- STUDENTS PANEL -->
 <div class="panel active" id="students">
   <div class="hero">
     <h1>Add your students.<br>Build the class.</h1>
-    <p>Every student you add here becomes part of attendance, results, and prefect selection.</p>
+    <p>Every student you add becomes part of attendance, results, and prefect selection.</p>
   </div>
+
   <div class="form-area">
     <input type="text" id="studentName" placeholder="Full name">
     <input type="text" id="studentId" placeholder="Student ID (e.g. 001)">
     <div class="btn-row">
       <button class="btn-primary" onclick="addStudent()">Add Student</button>
+      <button class="btn-secondary" onclick="loadRoster()">Refresh List</button>
     </div>
     <div class="result-box" id="studentResult">Students will appear here.</div>
   </div>
+
+  <div class="search-wrap">
+    <input class="search-input" type="text" id="searchInput" placeholder="Search students by name or ID..." oninput="filterRoster()">
+  </div>
+
+  <div class="roster-wrap" id="rosterWrap">
+    <div class="roster-empty">Loading students...</div>
+  </div>
 </div>
 
+<!-- ATTENDANCE PANEL -->
 <div class="panel" id="attendance">
   <div class="hero">
     <h1>Mark attendance.<br>Know who showed up.</h1>
@@ -212,6 +288,7 @@ footer .footer-bottom span.author { color: #F472C4; font-weight: 600; }
   </div>
 </div>
 
+<!-- RESULTS PANEL -->
 <div class="panel" id="results">
   <div class="hero">
     <h1>Record results.<br>See who's leading.</h1>
@@ -225,17 +302,16 @@ footer .footer-bottom span.author { color: #F472C4; font-weight: 600; }
       <button class="btn-primary" onclick="addResult()">Save Result</button>
       <button class="btn-secondary" onclick="getRanked()">View Rankings</button>
     </div>
-
     <div class="terminal-card">
       <div class="terminal-line highlight">&gt; "Save a new score"</div>
       <div class="terminal-line">&gt; "Check attendance this week"</div>
       <div class="terminal-line magenta-highlight">&gt; "Who's top of the class?"</div>
     </div>
-
     <div class="result-box" id="resResult">Response will appear here.</div>
   </div>
 </div>
 
+<!-- PREFECT PANEL -->
 <div class="panel" id="prefect">
   <div class="hero">
     <h1>Select a prefect.<br>Give someone the lead.</h1>
@@ -251,35 +327,144 @@ footer .footer-bottom span.author { color: #F472C4; font-weight: 600; }
 
 <footer>
   <div class="footer-title">My Classroom</div>
-  <div class="footer-tag">Built for Mrs Juliana Njoku's classroom.</div>
+  <div class="footer-tag">Built for Mrs Juliana Obi-Njoku's classroom.</div>
   <div class="footer-bottom">
     <span>&copy; 2026 My Classroom. All rights reserved.</span>
-    <span class="author">Author: George Obi-Njoku</span>
+    <span class="author">Author: George Obi-Njoku(Ramzy the Dev)</span>
   </div>
 </footer>
 
 <script>
 const BASE = 'https://my-classroom-nw8y.onrender.com';
 
+let allStudents = [];
+let openStudentId = null;
+
 function showTab(name, el) {
   document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
   document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
   document.getElementById(name).classList.add('active');
   el.classList.add('active');
+  if (name === 'students') loadRoster();
 }
 
+// ── ROSTER ──────────────────────────────────────────────
+async function loadRoster() {
+  const wrap = document.getElementById('rosterWrap');
+  wrap.innerHTML = '<div class="roster-empty">Loading...</div>';
+  try {
+    const res = await fetch(`${BASE}/students`);
+    const data = await res.json();
+    allStudents = data.students || [];
+    renderRoster(allStudents);
+  } catch {
+    wrap.innerHTML = '<div class="roster-empty">Could not load students. Is the server awake?</div>';
+  }
+}
+
+function renderRoster(students) {
+  const wrap = document.getElementById('rosterWrap');
+  if (!students.length) {
+    wrap.innerHTML = '<div class="roster-empty">No students yet. Add one above.</div>';
+    return;
+  }
+  wrap.innerHTML = students.map(s => `
+    <div class="student-card" id="card-${s.ID}" onclick="toggleStudent('${s.ID}', '${s.Name}')">
+      <div class="student-card-info">
+        <div class="student-card-name">${s.Name}</div>
+        <div class="student-card-id">ID: ${s.ID}</div>
+      </div>
+      <button class="btn-danger" onclick="event.stopPropagation(); deleteStudent('${s.ID}', '${s.Name}')">Remove</button>
+    </div>
+    <div class="student-detail" id="detail-${s.ID}"></div>
+  `).join('');
+}
+
+function filterRoster() {
+  const q = document.getElementById('searchInput').value.toLowerCase();
+  const filtered = allStudents.filter(s =>
+    s.Name.toLowerCase().includes(q) || s.ID.toLowerCase().includes(q)
+  );
+  renderRoster(filtered);
+}
+
+async function toggleStudent(id, name) {
+  const card = document.getElementById(`card-${id}`);
+  const detail = document.getElementById(`detail-${id}`);
+
+  if (detail.classList.contains('open')) {
+    detail.classList.remove('open');
+    card.classList.remove('selected');
+    openStudentId = null;
+    return;
+  }
+
+  // close any open one
+  if (openStudentId) {
+    document.getElementById(`detail-${openStudentId}`)?.classList.remove('open');
+    document.getElementById(`card-${openStudentId}`)?.classList.remove('selected');
+  }
+
+  card.classList.add('selected');
+  detail.innerHTML = '<div class="no-results-msg">Loading...</div>';
+  detail.classList.add('open');
+  openStudentId = id;
+
+  try {
+    const res = await fetch(`${BASE}/students/${id}`);
+    const data = await res.json();
+    const results = data.results || {};
+    const keys = Object.keys(results);
+
+    if (!keys.length) {
+      detail.innerHTML = `<h4>${name}'s Results</h4><div class="no-results-msg">No results recorded yet.</div>`;
+    } else {
+      const rows = keys.map(subj => `
+        <div class="subject-row">
+          <span class="subject-name">${subj}</span>
+          <span class="subject-score">${results[subj]}</span>
+        </div>
+      `).join('');
+      detail.innerHTML = `<h4>${name}'s Results</h4>${rows}`;
+    }
+  } catch {
+    detail.innerHTML = '<div class="no-results-msg">Could not load results.</div>';
+  }
+}
+
+async function deleteStudent(id, name) {
+  if (!confirm(`Remove ${name} from the register?`)) return;
+  try {
+    const res = await fetch(`${BASE}/students/${id}`, { method: 'DELETE' });
+    const data = await res.json();
+    document.getElementById('studentResult').innerText = data.message || 'Removed.';
+    loadRoster();
+  } catch {
+    document.getElementById('studentResult').innerText = 'Could not delete student.';
+  }
+}
+
+// ── ADD STUDENT ─────────────────────────────────────────
 async function addStudent() {
-  const name = document.getElementById('studentName').value;
-  const id = document.getElementById('studentId').value;
+  const name = document.getElementById('studentName').value.trim();
+  const id = document.getElementById('studentId').value.trim();
+  if (!name || !id) {
+    document.getElementById('studentResult').innerText = 'Fill in both name and ID.';
+    return;
+  }
   const res = await fetch(`${BASE}/students`, {
     method: 'POST',
     headers: {'Content-Type': 'application/json'},
     body: JSON.stringify({name, student_id: id})
   });
   const data = await res.json();
-  document.getElementById('studentResult').innerText = data.Message || data.error || 'Done.';
+  document.getElementById('studentResult').innerText = data.Message || data.detail || 'Done.';
+  document.getElementById('studentName').value = '';
+  document.getElementById('studentId').value = '';
+  loadRoster();
 }
 
+// ── ATTENDANCE ───────────────────────────────────────────
 async function markAttendance() {
   const student_id = document.getElementById('attId').value;
   const day = document.getElementById('attDay').value;
@@ -290,9 +475,10 @@ async function markAttendance() {
     body: JSON.stringify({student_id, day, status})
   });
   const data = await res.json();
-  document.getElementById('attResult').innerText = data.Message || data.error || 'Done.';
+  document.getElementById('attResult').innerText = data.Message || data.detail || 'Done.';
 }
 
+// ── RESULTS ──────────────────────────────────────────────
 async function addResult() {
   const student_id = document.getElementById('resId').value;
   const subject = document.getElementById('resSubject').value;
@@ -303,21 +489,32 @@ async function addResult() {
     body: JSON.stringify({student_id, subject, score})
   });
   const data = await res.json();
-  document.getElementById('resResult').innerText = data.Message || data.error || 'Done.';
+  document.getElementById('resResult').innerText = data.message || data.detail || 'Done.';
 }
 
 async function getRanked() {
   const res = await fetch(`${BASE}/results/ranked`);
   const data = await res.json();
-  document.getElementById('resResult').innerText = data.Message || data.error || 'Done.';
+  if (data['ranked students']) {
+    const text = data['ranked students'].map(s =>
+      `${s.rank}. ${s.name} — Total: ${s.total}`
+    ).join('\n');
+    document.getElementById('resResult').innerText = text;
+  } else {
+    document.getElementById('resResult').innerText = data.detail || 'No data.';
+  }
 }
 
+// ── PREFECT ──────────────────────────────────────────────
 async function getPrefect() {
   const res = await fetch(`${BASE}/prefect`);
   const data = await res.json();
-  document.getElementById('prefectResult').innerText = data.Message || data.error || 'Done.';
+  document.getElementById('prefectResult').innerText =
+    data.Prefect ? `Prefect: ${data.Prefect} (ID: ${data.id})` : data.detail || 'No data.';
 }
-</script>
 
+// Load roster on page open
+loadRoster();
+</script>
 </body>
 </html>
