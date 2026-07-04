@@ -29,6 +29,26 @@ def get_students(db: Session = Depends(get_db)):
     students = db.query(models.Student).all()
     return {'students': [{'Name': s.student_name, 'ID': s.student_id} for s in students]}
 
+@app.get("/students/{student_id}")
+def get_student(student_id:str, db: Session = Depends(get_db)):
+    student = db.query(models.Student).filter(models.Student.student_id == student_id).first()
+    if not student:
+        raise HTTPException(status_code= 404, detail= "Student not found!")
+    return {
+        'student_id':student.student_id,
+        'name': student.student_name,
+        'results': student.get_result()
+    }
+
+@app.delete("/students/{student_id}")
+def delete_student(student_id: str, db: Session = Depends(get_db)):
+    student = db.query(models.Student).filter(models.Student.student_id == student_id).first()
+    if not student:
+        raise HTTPException(status_code=404, detail="Student not found!")
+    db.delete(student)
+    db.commit()
+    return {'message': f'{student.student_name} has been removed from the register!'}
+
 @app.post("/students")
 def add_student(student_input: schemas.StudentSchema, db: Session = Depends(get_db)):
     existing = db.query(models.Student).filter(models.Student.student_id == student_input.student_id).first()
